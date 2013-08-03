@@ -1,0 +1,24 @@
+RubyQz:
+  listener:
+    DRB:
+      port: 1234
+    HTTP:
+      port: 3009
+      bind_address: localhost
+    scheme: RubyQz::HTTP #[DRB, HTTP]
+        
+  storage:
+    scheme: file #[file,db,memcache,named_other]
+    file:
+      path: /tmp/filestorage
+    db:
+      connection_string:
+        - [engine, servername, port, dbname, username, password, otherconnectioninfo]
+      memcache:
+        - [servername, port]
+      named_other:
+        - [system, parameters]
+      
+      
+      
+          
