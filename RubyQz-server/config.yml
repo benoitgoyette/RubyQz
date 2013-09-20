@@ -1,29 +1,25 @@
 %YAML 1.1
 ---
   
-RubyQz:
-  listener:
-    DRB:
-      bind_address: localhost
-      port: 1234
-    HTTP:
-      bind_address: localhost
-      port: 3009
-    scheme: DRB 
-    #[DRB, HTTP]
-        
-  storage:
-    file:
-      path: /tmp/filestorage
-    db:
-      connection_string:
-        - [engine, servername, port, dbname, username, password, otherconnectioninfo]
-    memcache:
-      - [servername, port]
-    named_other:
-      - [system, parameters]
-    scheme: file #[file,db,memcache,named_other]
-      
-      
-      
-          
+listener:
+  DRB: 
+    bind_address: localhost
+    port: 1234
+  HTTP: &listenerScheme
+    bind_address: localhost
+    port: 3009
+  scheme: DRB
+    
+storage:
+  file: &storageScheme
+    path: /tmp/filestorage
+  db:
+    connection_string:
+      - [engine, servername, port, dbname, username, password, otherconnectioninfo]
+  memcache:
+    - [servername, port]
+  named_other:
+    - [system, parameters]
+  scheme: file
+  #[file,db,memcache,named_other]
+

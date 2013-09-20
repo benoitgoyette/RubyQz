@@ -14,7 +14,7 @@ class TestConfig < Test::Unit::TestCase
   end
 
   def test_load_file
-    assert_throws(RubyQz::ConfigException) do
+    assert_raises(RubyQz::ConfigException) do
       RubyQz::Config.new File.dirname(__FILE__)+'/fixtures/config2.yml'
     end
   end

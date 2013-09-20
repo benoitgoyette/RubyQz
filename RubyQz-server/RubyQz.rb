@@ -2,7 +2,11 @@
 #===============================
 # RubyQz daemon
 #
-require 'RubyQz/Config/config.rb'
+require File.dirname(__FILE__)+'/RubyQz/config/config.rb'
+require File.dirname(__FILE__)+'/RubyQz/listener/controller.rb'
+require File.dirname(__FILE__)+'/RubyQz/listener/factory.rb'
+require File.dirname(__FILE__)+'/RubyQz/storage/manager.rb'
+require File.dirname(__FILE__)+'/RubyQz/storage/factory.rb'
 
 
 trap("SIGINT") { raise SignalException.new :INT }
@@ -15,15 +19,21 @@ module RubyQzDaemon
     puts "starting \e[37;41m Ruby\e[33mQz \e[37;40m daemon, pid #{Process.pid}"
     begin 
       # for the meantime, lets put a sleep here.
-        begin
-          config = Config.new
-        rescue Exception => ce
-          puts "Configuration exception #{e}" 
-        end
+      begin
+        config = RubyQz::Config.load
+      rescue Exception => ce
+        puts "Configuration exception #{ce}" 
+      end
+      
+      listener = RubyQz::Listener::Controller.new RubyQz::Listener::Factory::instantiate(config['listener'])
+      # storage = RubyQz::Storage::Controller.new RubyQz::Storage::Factory::instantiate(config['storage'])
+      # queue = RubyQz::Queue.new(listener, storage)
         
-        sleep
+      sleep
     rescue SignalException, SystemExit, Interrupt, StandardError, Exception => e
       puts "stopping... #{e}"
+      puts e.inspect
+      puts e.backtrace      
     end
   end
 

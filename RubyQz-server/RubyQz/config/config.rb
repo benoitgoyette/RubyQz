@@ -12,17 +12,17 @@ module RubyQz
   
   
   class Config
-    def initialize file=nil
+    def self.load file=nil
       begin
         yaml_file = YAML.load_file(file.nil? ? 'config.yml' : file)
       rescue Exception => e
         throw e
       end
 
-      rubyqz = yaml_file['RubyQz']
-      if rubyqz.nil?
-        throw RubyQz::ConfigException.new 'Cannot find RubyQz section, it must be a root element'
-      end
+      # rubyqz = yaml_file['RubyQz']
+      # if rubyqz.nil?
+      #   raise RubyQz::ConfigException.new 'Cannot find RubyQz section, it must be a root element'
+      # end
     end
   end
 end

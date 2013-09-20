@@ -2,4 +2,6 @@
 
 
 
-(Dir["#{File.dirname(__FILE__)}/**/*.rb"]-[File.join(File.dirname(__FILE__), __FILE__)]).each { |f|  }
+(Dir["#{File.dirname(__FILE__)}/**/*.rb"]-[File.join(File.dirname(__FILE__), __FILE__)]).each do |f| 
+  require f
+end
