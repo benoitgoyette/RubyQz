@@ -1,0 +1,13 @@
+%YAML 1.1
+---
+listener:
+  DRB:
+    bind_address: localhost
+    port: 1234
+  HTTP:
+    bind_address: localhost
+    port: 3009
+  scheme: DRB
+  #[DRB, HTTP]
+
+

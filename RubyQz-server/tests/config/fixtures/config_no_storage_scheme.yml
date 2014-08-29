@@ -8,7 +8,6 @@ listener:
     bind_address: localhost
     port: 3009
   scheme: DRB
-
   #[DRB, HTTP]
 
 storage:
@@ -21,9 +20,6 @@ storage:
     - [servername, port]
   named_other:
     - [system, parameters]
-  scheme: file
-  #[file,db,memcache,named_other]
-      
-      
-      
-          
+
+
+

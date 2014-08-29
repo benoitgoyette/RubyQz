@@ -1,9 +1,9 @@
-require "test/unit"
-require "../../../RubyQz/Storage/File/file_storage.rb"
+require 'test/unit'
+require File.dirname(File.absolute_path(__FILE__)) + '/../../../RubyQz/storage/File/file_storage.rb'
 
 class TestFileStorage < Test::Unit::TestCase
   
   def TestClassExists
-    assert_not_null  null
+    assert_nil nil
   end
 end
