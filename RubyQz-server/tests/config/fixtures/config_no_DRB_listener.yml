@@ -1,0 +1,22 @@
+%YAML 1.1
+---
+listener:
+  scheme: DRB
+
+  #[DRB, HTTP]
+
+storage:
+  file:
+    path: /tmp/filestorage
+  db:
+    connection_string:
+      - [engine, servername, port, dbname, username, password, otherconnectioninfo]
+  memcache:
+    - [servername, port]
+  named_other:
+    - [system, parameters]
+  scheme: file
+  #[file,db,memcache,named_other]
+
+
+

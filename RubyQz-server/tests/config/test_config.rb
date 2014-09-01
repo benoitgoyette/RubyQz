@@ -87,5 +87,28 @@ class TestConfig < Test::Unit::TestCase
     end
   end
 
+  def test_missing_DRB_scheme_config
+    assert_raises(RubyQz::ConfigException) do
+      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_DRB_listener.yml'
+    end
+
+    begin
+      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_DRB_listener.yml'
+    rescue Exception=>e
+      assert_equal true, e.message.include?("missing listener scheme configuration DRB")
+    end
+  end
+
+  def test_missing_file_scheme_config
+    assert_raises(RubyQz::ConfigException) do
+      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_file_storage.yml'
+    end
+
+    begin
+      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_file_storage.yml'
+    rescue Exception=>e
+      assert_equal true, e.message.include?("missing storage scheme configuration file")
+    end
+  end
 
 end
