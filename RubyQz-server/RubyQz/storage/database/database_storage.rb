@@ -1,6 +1,6 @@
 module RubyQz
   module Storage
-    class DatabaseStorage
+    class Database
       def initialize(config)
       end
       

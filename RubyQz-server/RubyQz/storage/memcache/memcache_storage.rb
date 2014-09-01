@@ -1,6 +1,6 @@
 module RubyQz
   module Storage
-    class MemcacheStorage
+    class Memcache
       def initialize(config)
       end
       
