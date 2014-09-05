@@ -17,8 +17,10 @@ class TestFileStorage < Test::Unit::TestCase
     folder = '/tmp/filestorage'
     @file_config = RubyQz::Scheme.new 'file', {'path'=>folder}
     @data = {"some_key"=>{"other_key"=>"some_data"} }
+    @topic = 'test'
     Dir.mkdir folder if !Dir.exists? folder
     FileUtils.chmod 0777, folder
+    FileUtils.rm_rf folder+'/'+@topic
   end
 
   def test_file_class_exists
@@ -59,13 +61,38 @@ class TestFileStorage < Test::Unit::TestCase
   end
 
   def test_post_file
-    start = Time.now.to_i
+    start = Time.now
     file_storage = RubyQz::Storage::FileStorage.new @file_config
-    timestamp = file_storage.store 'test', @data
+    timestamp = file_storage.store @topic, @data
     sleep 1
-    endTime = Time.now.to_i
-    assert_not_nil timestamp > start
-    assert_not_nil timestamp < endTime
+    endTime = Time.now
+    assert timestamp > start, "file timestamp invalid 1"
+    assert timestamp < endTime, "file timestamp invalid 1"
+
+    assert Dir.exists?(file_storage.path + '/test')
+
+    filename = timestamp.strftime('%24N')
+    assert (File.exists? file_storage.path+'/'+@topic+'/'+filename), "file does not exist"
+
+    unmarshalled = nil
+    File.open(file_storage.path+'/'+@topic+'/'+filename, "r") do |file|
+      content = file.read
+      unmarshalled = YAML.load content
+    end
+    assert_not_same @data, unmarshalled, "reference hash and unmarshalled hash are not identical"
+  end
+
+  def test_post_class
+    custom = CustomClass.new('aaa', ["bb'b", 'ccc'])
+    file_storage = RubyQz::Storage::FileStorage.new @file_config
+    timestamp = file_storage.store @topic, custom
+    filename = timestamp.strftime('%24N')
+    unmarshalled = nil
+    File.open(file_storage.path+'/'+@topic+'/'+filename, "r") do |file|
+      content = file.read
+      unmarshalled = YAML.load content
+    end
+    assert_not_same custom, unmarshalled, "custom class not same as unmarshalled class"
   end
 
   # def test_get_file
@@ -78,3 +105,12 @@ class TestFileStorage < Test::Unit::TestCase
 
 end
 
+
+class CustomClass
+  attr_accessor :field_a
+  attr_accessor :field_b
+  def initialize a, b
+    @field_a = a
+    @field_b = b
+  end
+end

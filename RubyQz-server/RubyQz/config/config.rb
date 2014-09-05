@@ -32,11 +32,13 @@ module RubyQz
         raise RubyQz::ConfigException.new "missing listener scheme configuration #{yaml_file['listener']['scheme']} in #{file}" if yaml_file['listener'][yaml_file['listener']['scheme']].empty?
         raise RubyQz::ConfigException.new "missing storage configuration in #{file}" if yaml_file['storage'].empty?
         raise RubyQz::ConfigException.new "missing storage scheme configuration in #{file}" if yaml_file['storage']['scheme'].empty?
-        raise RubyQz::ConfigException.new "missing storage scheme configuration #{yaml_file['storage']['scheme']} in #{file}" if yaml_file['storage'][yaml_file['storage']['scheme']].empty?
+        raise RubyQz::ConfigException.new "missing storage scheme configuration '#{yaml_file['storage']['scheme']}' in #{file}" if yaml_file['storage'][yaml_file['storage']['scheme']].empty?
 
         @@listener = RubyQz::Scheme.new yaml_file['listener']['scheme'], yaml_file['listener'][yaml_file['listener']['scheme']]
         @@storage = RubyQz::Scheme.new yaml_file['storage']['scheme'],  yaml_file['storage'][yaml_file['storage']['scheme']]
         [@@listener, @@storage]
+      rescue Errno::ENOENT => fnfe
+        raise RubyQz::ConfigException.new "No such file or directory #{file}"
       rescue Exception => e
         raise RubyQz::ConfigException.new e
       end

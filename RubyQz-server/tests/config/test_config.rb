@@ -28,86 +28,51 @@ class TestConfig < Test::Unit::TestCase
   end
 
   def test_missing_file
-    assert_raises(RubyQz::ConfigException) do
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/missing_file.yml'
-    end
-
-    begin
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/missing_file.yml'
-    rescue Exception=>e
-      assert_equal true, e.message.include?("No such file or directory")
+    filename = File.dirname(__FILE__)+'/fixtures/missing_file.yml'
+    assert_raise_with_message(RubyQz::ConfigException, "No such file or directory #{filename}") do
+      RubyQz::Config.load filename
     end
   end
 
   def test_missing_listener_config
-    assert_raises(RubyQz::ConfigException) do
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_listener.yml'
-    end
-
-    begin
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_listener.yml'
-    rescue Exception=>e
-      assert_equal true, e.message.include?("missing listener configuration")
+    filename = File.dirname(__FILE__)+'/fixtures/config_no_listener.yml'
+    assert_raise_with_message(RubyQz::ConfigException, "missing listener configuration in #{filename}") do
+      RubyQz::Config.load filename
     end
   end
 
   def test_missing_storage_config
-    assert_raises(RubyQz::ConfigException) do
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_storage.yml'
-    end
-
-    begin
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_storage.yml'
-    rescue Exception=>e
-      assert_equal true, e.message.include?("missing storage configuration")
+    filename = File.dirname(__FILE__)+'/fixtures/config_no_storage.yml'
+    assert_raise_with_message(RubyQz::ConfigException, "missing storage configuration in #{filename}") do
+      RubyQz::Config.load filename
     end
   end
 
   def test_missing_listener_scheme_config
-    assert_raises(RubyQz::ConfigException) do
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_listener_scheme.yml'
-    end
-
-    begin
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_listener_scheme.yml'
-    rescue Exception=>e
-      assert_equal true, e.message.include?("missing listener scheme configuration")
+    filename = File.dirname(__FILE__)+'/fixtures/config_no_listener_scheme.yml'
+    assert_raise_with_message(RubyQz::ConfigException, "missing listener scheme configuration in #{filename}") do
+      RubyQz::Config.load filename
     end
   end
 
   def test_missing_storage_scheme_config
-    assert_raises(RubyQz::ConfigException) do
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_storage_scheme.yml'
-    end
-
-    begin
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_storage_scheme.yml'
-    rescue Exception=>e
-      assert_equal true, e.message.include?("missing storage scheme configuration")
+    filename = File.dirname(__FILE__)+'/fixtures/config_no_storage_scheme.yml'
+    assert_raise_with_message(RubyQz::ConfigException, "missing storage scheme configuration in #{filename}") do
+      RubyQz::Config.load filename
     end
   end
 
   def test_missing_DRB_scheme_config
-    assert_raises(RubyQz::ConfigException) do
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_DRB_listener.yml'
-    end
-
-    begin
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_DRB_listener.yml'
-    rescue Exception=>e
-      assert_equal true, e.message.include?("missing listener scheme configuration DRB")
+    filename = File.dirname(__FILE__)+'/fixtures/config_no_DRB_listener.yml'
+    assert_raise_with_message(RubyQz::ConfigException, "missing listener scheme configuration DRB in #{filename}") do
+      RubyQz::Config.load filename
     end
   end
 
   def test_missing_file_scheme_config
-    assert_raises(RubyQz::ConfigException) do
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_file_storage.yml'
-    end
-
-    begin
-      RubyQz::Config.load File.dirname(__FILE__)+'/fixtures/config_no_file_storage.yml'
-    rescue Exception=>e
-      assert_equal true, e.message.include?("missing storage scheme configuration file")
+    filename = File.dirname(__FILE__)+'/fixtures/config_no_file_storage.yml'
+    assert_raise_with_message(RubyQz::ConfigException, "missing storage scheme configuration 'file' in #{filename}") do
+      RubyQz::Config.load filename
     end
   end
 

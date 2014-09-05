@@ -12,11 +12,25 @@ module RubyQz
       end
 
       def store(topic, data)
-        return Time.now.to_i
-
+        timestamp = Time.now
+        filename = timestamp.strftime('%24N')
+        store_data topic, data, filename
+        timestamp
       end
 
       def read(topic)
+      end
+
+private
+      def create_topic topic
+        Dir.mkdir @path+'/'+topic if(!Dir.exists?(@path+'/'+topic))
+        @path+'/'+topic
+      end
+
+      def store_data topic, data, filename
+        File.open(create_topic(topic)+'/'+filename, 'w+') do |file|
+          file.write YAML.dump(data)
+        end
       end
     end
   end
